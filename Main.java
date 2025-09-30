@@ -10,14 +10,76 @@ public class Main {
         // Exercise 1: Creating a Bank Account
         // Create a BankAccount instance
         // Perform deposit and withdrawal operations.
+        Class BankAccount {
+            private String accountNumber;
+            private double balance;
+
+            public BankAccount(String accountNumber) {
+                this.accountNumber = accountNumber;
+                this.balance = 0.0;
+            }
+
+            public void deposit(double amount) {
+                if (amount > 0) {
+                    balance += amount;
+                }
+            }
+
+            public boolean withdraw(double amount) {
+                if (amount > 0 && amount <= balance) {
+                    balance -= amount;
+                    return true;
+                }
+                return false;
+            }
+
+            public double getBalance() {
+                return balance;
+            }
+
+            public String getAccountNumber() {
+                return accountNumber;
+            }
+        }
+
 
         // Exercise 2: Creating a Savings Account
         // Create a SavingsAccount instance
         // Perform deposit operations with interest
+        class SavingsAccount extends BankAccount {
+            private double interestRate;
+
+            public SavingsAccount(String accountNumber, double interestRate) {
+                super(accountNumber);
+                this.interestRate = interestRate;
+            }
+
+            public void applyInterest() {
+                double interest = getBalance() * interestRate / 100;
+                deposit(interest);
+            }
+        }
+
 
         // Exercise 3: Creating a Checking Account
         // Create a CheckingAccount instance
         // Perform withdrawal operations with overdraft
+        class CheckingAccount extends BankAccount {
+            private double overdraftLimit;
+
+            public CheckingAccount(String accountNumber, double overdraftLimit) {
+                super(accountNumber);
+                this.overdraftLimit = overdraftLimit;
+            }
+
+            @Override
+            public boolean withdraw(double amount) {
+                if (amount > 0 && amount <= getBalance() + overdraftLimit) {
+                    return super.withdraw(amount);
+                }
+                return false;
+            }
+        }
 
         // Exercise 4: Managing Customer's Accounts
         // Create a BankCustomer instance
